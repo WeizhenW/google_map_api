@@ -1,15 +1,33 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 
-const MyMapComponent = withScriptjs(withGoogleMap((props) =>
-  <GoogleMap
-    defaultZoom={16}
-    defaultCenter={{lat: 44.977575, lng: -93.498789 }}
-    // defaultCenter= {props.center}
-  >
-    {props.isMarkerShown && <Marker position={{ lat: 44.977575, lng: -93.498789 }} />}
-  </GoogleMap>
-  
-))
 
-  export default MyMapComponent;
+class myMap extends Component {
+
+  render() {
+    return (
+      <>
+      {JSON.stringify(this.props)}
+      <GoogleMap
+        defaultZoom={16}
+        defaultCenter={{lat:this.props.reduxState.currentLocation.latitude, lng: this.props.reduxState.currentLocation.longitude }}
+      >
+        {this.props.isMarkerShown && 
+        // <>
+        <Marker position={{ lat: 44.9728576, lng: -93.4680556}} />
+        // </>
+      }
+      </GoogleMap>
+      </>
+    )
+  }
+}
+
+const mapReduxStateToProps = reduxState => ({
+  reduxState,
+})
+
+const WrappedMap = withScriptjs(withGoogleMap(myMap));
+
+export default connect(mapReduxStateToProps)(WrappedMap);
