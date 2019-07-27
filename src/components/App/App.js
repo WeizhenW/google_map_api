@@ -49,10 +49,9 @@ class App extends Component {
         <MyMap
           isMarkerShown
           googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_KEY}&callback=initMap`}
-          loadingElement={<div style={{ height: '50vh' }} />}
-          containerElement={<div style={{ height: `50vh`, width: '50vw' }} />}
+          loadingElement={<div style={{ height: '100vh' }} />}
+          containerElement={<div style={{ height: `100vh`, width: '100vw' }} />}
           mapElement={<div style={{ height: `100%` }}
-          currentLocation = {this.state.currentLocation}
           />} />
       </div>
     );
