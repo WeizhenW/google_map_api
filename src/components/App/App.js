@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
 import MyMap from '../GoogleMap/GoogleMap';
+import Search from '../Search/Search';
 
 import { connect } from 'react-redux';
+
 
 class App extends Component {
   state = {
@@ -46,6 +48,7 @@ class App extends Component {
       <div className="App">
         {/* {JSON.stringify(this.state)} */}
         {/* {JSON.stringify(this.props.reduxState)} */}
+        <Search />
         <MyMap
           isMarkerShown
           googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_KEY}&callback=initMap`}
