@@ -9,9 +9,8 @@ const currentLocation = (state={}, action) => {
     }
 }
 
-const searchResult = (state=[], action) => {
+const dbResult = (state=[], action) => {
     switch(action.type){
-        
         case 'SET_DATABASE_RESULT':
             return action.payload;
         default:
@@ -29,12 +28,9 @@ const googleResult = (state = [], action) => {
     }
 }
 
-
-
-
 const rootReducer = combineReducers({
     currentLocation,
-    searchResult,
+    dbResult,
     googleResult,
 })
 

@@ -8,31 +8,48 @@ import * as geolib from 'geolib';
 
 class myMap extends Component {
   state = {
-    restaurantList: [],
     selectedPin: '',
   }
 
-  // componentDidMount(){
-  //   axios.get('/api/restaurants')
-  //     .then(
-  //       response => {
-  //         this.props.dispatch({
-  //           type: 'SET_DATABASE_RESULT',
-  //           payload: response.data,
-  //         })
-  //         this.setState({
-  //           restaurantList: response.data,
-  //         })
-  //       }
-  //     )
-  // }
+  getDatabaseRestaurants = () => {
+    axios.get('/api/restaurants')
+      .then(
+        response => {
+          this.props.dispatch({
+            type: 'SET_DATABASE_RESULT',
+            payload: response.data,
+          })
+        }
+      )
+  }
 
-  handleSelectedPin = (pin) => {
+  componentDidMount(){
+    this.getDatabaseRestaurants();
+  }
+
+  handleSelectedPin = (pin, type) => {
     console.log('in handle selected pin');
     console.log(pin);
-    this.setState({
-      selectedPin: pin,
-    });
+    if(type === 'google'){
+      this.setState({
+        selectedPin:{
+          lat: pin.geometry.location.lat,
+          lng: pin.geometry.location.lng,
+          name: pin.name,
+          address: pin.vicinity,
+          rating: pin.rating,
+        }
+      })
+    } else {
+      this.setState({
+        selectedPin:{
+          lat: Number(pin.latitude),
+          lng: Number(pin.longitude),
+          name: pin.name,
+          address: pin.address,
+        }
+      })
+    }
   }
 
   handleClearSelectedPin = () => {
@@ -56,29 +73,33 @@ class myMap extends Component {
           defaultZoom={14}
           defaultCenter={{ lat: Number(this.props.reduxState.currentLocation.latitude), lng: Number(this.props.reduxState.currentLocation.longitude) }}
         >
-          {this.props.isMarkerShown && this.props.reduxState.googleResult.length &&
+          {this.props.isMarkerShown && this.props.reduxState.googleResult.length?
             this.props.reduxState.googleResult.map(restaurant =>
               <Marker 
                 key={restaurant.place_id} 
                 position={{ lat: restaurant.geometry.location.lat, lng: restaurant.geometry.location.lng }}
-                onClick={() => this.handleSelectedPin(restaurant)} 
-              />
-            )
+                onClick={() => this.handleSelectedPin(restaurant, 'google')} 
+              />)
+              :
+              this.props.reduxState.dbResult.map(restaurant =>
+                <Marker 
+                  key={restaurant.id} 
+                  position={{ lat: Number(restaurant.latitude), lng: Number(restaurant.longitude) }}
+                  onClick={() => this.handleSelectedPin(restaurant, 'database')} 
+                />)
           }
 
           {this.state.selectedPin &&
             <InfoWindow
               position={{
-                lat: this.state.selectedPin.geometry.location.lat,
-                lng: this.state.selectedPin.geometry.location.lng,
+                lat: this.state.selectedPin.lat,
+                lng: this.state.selectedPin.lng,
               }}
             onCloseClick={this.handleClearSelectedPin}
             >
-              
               <div id="infoWindow">
                 <h4>Name: {this.state.selectedPin.name}</h4>
-                <h4>Address: {this.state.selectedPin.vicinity}</h4>
-                <h4>Address: {this.state.selectedPin.rating}</h4>
+                <h4>Address: {this.state.selectedPin.address}</h4>
                 <button onClick={this.handleCheckDistance}>See detail</button>
               </div>
               

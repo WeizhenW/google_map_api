@@ -23,13 +23,12 @@ class Search extends Component {
                     type: 'SET_SEARCH_RESULT',
                     payload: response.data,
                 })
-                
             })
     }
     render() {
         return(
             <div>
-                {/* {JSON.stringify(this.props.reduxState.googleResult)} */}
+                {JSON.stringify(this.props.reduxState.googleResult)}
                 <ul>
                     {this.props.reduxState.googleResult.length &&
                         this.props.reduxState.googleResult.map(restaurant => 

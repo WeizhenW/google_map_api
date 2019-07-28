@@ -7,7 +7,6 @@ require('dotenv').config();
 const pool = require('../modules/pool');
 
 router.get('/', (req, res) => {
-    // console.log(req.query.restaurant);
     axios({
         method: 'GET',
         url: `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${req.query.lat},${req.query.lng}&radius=1000&type=restaurant&keyword=${req.query.restaurant}`,
