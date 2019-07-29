@@ -28,7 +28,7 @@ class Search extends Component {
     render() {
         return(
             <div>
-                {JSON.stringify(this.props.reduxState.googleResult)}
+                {/* {JSON.stringify(this.props.reduxState.googleResult)}
                 <ul>
                     {this.props.reduxState.googleResult.length &&
                         this.props.reduxState.googleResult.map(restaurant => 
@@ -39,7 +39,7 @@ class Search extends Component {
                             {restaurant.geometry.location.lng}
                             </li>
                         )}
-                </ul>
+                </ul> */}
                 <input placeholder="enter a restaurant name" onChange={this.handleInput}></input>
                 <button onClick={this.handleSearch}>Search</button>
             </div>

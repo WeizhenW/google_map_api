@@ -6,6 +6,14 @@ require('dotenv').config();
 
 const pool = require('../modules/pool');
 
+// router.get('/map', (req, res) => {
+//     axios(`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_KEY}&callback=initMap`)
+//         .then(response => {
+//             console.log(response.data);
+//             res.send(response.data);
+//         })
+// })
+
 router.get('/', (req, res) => {
     axios({
         method: 'GET',
